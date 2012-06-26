@@ -20,7 +20,7 @@ group :production do
 end
 
 # Padrino
-gem "padrino"
+gem "padrino", :git => "git://github.com/padrino/padrino-framework.git"
 
 # Database
 group :production do
