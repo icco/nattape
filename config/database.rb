@@ -1,34 +1,11 @@
 ##
-# You can use other adapters like:
-#
-#   ActiveRecord::Base.configurations[:development] = {
-#     :adapter   => 'mysql',
-#     :encoding  => 'utf8',
-#     :reconnect => true,
-#     :database  => 'your_database',
-#     :pool      => 5,
-#     :username  => 'root',
-#     :password  => '',
-#     :host      => 'localhost',
-#     :socket    => '/tmp/mysql.sock'
-#   }
-#
-ActiveRecord::Base.configurations[:development] = {
-  :adapter => 'sqlite3',
-  :database => Padrino.root('db', 'nattape_development.db')
+# Database config for relational db.
+prefix = "nattape"
 
-}
-
-ActiveRecord::Base.configurations[:production] = {
-  :adapter => 'sqlite3',
-  :database => Padrino.root('db', 'nattape_production.db')
-
-}
-
-ActiveRecord::Base.configurations[:test] = {
-  :adapter => 'sqlite3',
-  :database => Padrino.root('db', 'nattape_test.db')
-
+connections = {
+  :development => "sqlite://db/#{prefix}_development.db",
+  :test => "sqlite://db/#{prefix}_test.db",
+  :production => ENV['DATABASE_URL']
 }
 
 # Setup our logger
@@ -55,4 +32,28 @@ ActiveSupport.use_standard_json_time_format = true
 ActiveSupport.escape_html_entities_in_json = false
 
 # Now we can estabilish connection with our db
-ActiveRecord::Base.establish_connection(ActiveRecord::Base.configurations[Padrino.env])
+if connections[Padrino.env]
+  url = URI(connections[Padrino.env])
+  options = {
+    :adapter => url.scheme,
+    :host => url.host,
+    :port => url.port,
+    :database => url.path[1..-1],
+    :username => url.user,
+    :password => url.password
+  }
+  case url.scheme
+  when "sqlite"
+    options[:adapter] = "sqlite3"
+    options[:database] = url.host + url.path
+  when "postgres"
+    options[:adapter] = "postgresql"
+  end
+
+  # Log what we are connecting to.
+  logger.push " DB: #{options.inspect}", :devel
+
+  ActiveRecord::Base.establish_connection(options)
+else
+  logger.push("No database configuration for #{Padrino.env.inspect}", :fatal)
+end
