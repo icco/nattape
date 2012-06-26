@@ -1,32 +1,41 @@
 source :rubygems
 
-# Server requirements
-# gem 'thin' # or mongrel
-# gem 'trinidad', :platform => 'jruby'
+gem "activerecord", :require => "active_record"
+gem "erubis"
+gem "json"
+gem "less"
+gem "multi_json"
+gem "omniauth-github" # https://github.com/intridea/omniauth-github
+gem "pony"
+gem "rack"
+gem "rack-less"
+gem "rake"
+gem "sinatra-flash", :require => "sinatra/flash"
+gem "therubyracer"
+gem "thin"
 
-# Project requirements
-gem 'rake'
-gem 'sinatra-flash', :require => 'sinatra/flash'
+# Monitoring
+group :production do
+  gem 'newrelic_rpm'
+end
 
-# Component requirements
-gem 'rack-less'
-gem 'less'
-gem 'erubis', "~> 2.7.0"
-gem 'activerecord', :require => "active_record"
-gem 'sqlite3'
+# Padrino
+gem "padrino"
+
+# Database
+group :production do
+  gem "pg"
+end
 
 # Test requirements
 gem 'rr', :group => "test"
 gem 'minitest', "~>2.6.0", :require => "minitest/autorun", :group => "test"
 gem 'rack-test', :require => "rack/test", :group => "test"
 
-# Padrino Stable Gem
-gem 'padrino', '0.10.7'
+# For dev.
+group :development, :test do
+  gem "heroku"
+  gem "shotgun"
+  gem "sqlite3"
+end
 
-# Or Padrino Edge
-# gem 'padrino', :git => 'git://github.com/padrino/padrino-framework.git'
-
-# Or Individual Gems
-# %w(core gen helpers cache mailer admin).each do |g|
-#   gem 'padrino-' + g, '0.10.7'
-# end
