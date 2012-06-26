@@ -2,6 +2,13 @@
 <html>
   <head>
     <title>NatTape <% if @title %> | <%= @title %> <% end %></title>
+
+    <%= stylesheet_link_tag :tape %>
+    <style type="text/css">
+      div.banner { background: orange; }
+    </style>
+
+    <%= javascript_include_tag :swfobject %>
   </head>
   <body>
     <%= yield %>
