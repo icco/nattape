@@ -1,6 +1,15 @@
-# nattape
+# NatTape
 
 A site for sharing playlists online.
+
+## Endpoints
+
+ * /
+ * /logout
+ * /auth/twitter
+ * /auth/twitter/callback
+ * /playlist/edit/:id
+ * /playlist/view/:id
 
 ## LICENSE
 
