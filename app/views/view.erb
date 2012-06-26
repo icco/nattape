@@ -1,193 +1,180 @@
-		<div class="container">
-			<div class="banner">
-				<div class="flag">
-					<h1>NatTape</h1>
-					<h2><%= @songs.count %> songs, <%= @songs.play_length %></h2>
-				</div>
-			</div>
-										
-			<ul class="songs">
-        <% @songs.each do |song| %>
-			<li class="song" id="song<%= song.id %>">
-			<div class="name">
+<div class="container">
+  <div class="banner">
+    <div class="flag">
+      <h1>NatTape</h1>
+      <h2><%= @songs.count %> songs, <%= @songs.play_length %></h2>
+    </div>
+  </div>
+
+  <ul class="songs">
+    <% @songs.each do |song| %>
+      <li class="song" id="song<%= song.id %>">
+      <div class="name">
         <%= song.artist %> - <% song.title %>
-			</div>
+      </div>
 
-			<a class="mp3" href="<%= song.url %>" target="_blank">File</a>
+      <a class="mp3" href="<%= song.url %>" target="_blank">File</a>
 
-			<div class="info">
-			<div class="clock"></div> <strong>000</strong>
-			</div>
-			
-		</li>
-	</ul>				
-		
-		<div class="footer">
-			NatTape v0.0.1 &infin; <a href="/edit">Edit</a>
-		</div>
-		
-		<div id="openplayer" class="flash_player"></div>
-		
-		</div>
-		
-	<script type="text/javascript">
-		
-		var openPlaylist=new Array();
-		openPlaylist.push(<?php
-			$list_str = "";
-			foreach ($songlist_struct as $pos => $row) { 
-				$list_str .= "'" . preg_replace('/=/', '', $pos) . "',";				
-			}
-			$list_str = preg_replace('/,$/','',$list_str);
-			echo $list_str;
-			?>);
-			
-		// assign all the right events
-		for(i = 0; i < openPlaylist.length; i++) {
-			var trackEntry = $('song'+i);
-			if(trackEntry) {
-			
-				trackEntry.addEvent('mouseover',function() {
-					trackEntry.addClass('hover');
-				});
-				
-				trackEntry.addEvent('mouseout',function() {
-					trackEntry.removeClass('hover');
-				});
-				
-		
-				trackEntry.addEvent('click',function(e) {
-						targ = e.target || e.srcElement;
-						// because of the numerous subelements one can click, we need to do this ugly thing
-						if (targ.id.indexOf("song")!=-1) { togglePlayback(targ.id); }
-						else if (targ.parentNode.id.indexOf("song")!=-1) { togglePlayback(targ.parentNode.id); }
-						else if (targ.parentNode.parentNode.id.indexOf("song")!=-1) { togglePlayback(targ.parentNode.parentNode.id); }
-						else if (targ.parentNode.parentNode.parentNode.id.indexOf("song")!=-1) { togglePlayback(targ.parentNode.parentNode.parentNode.id); }
-				});
-				
-				
-			}
-		}	
-	
-		// Player management code //
-	
-		var currentTrack = 0;
-		var isReady = 0;
-		var playerStatus = "";
-		var currentPos;
-		var player;
-		
-		function playerReady(obj) {
-			var id = obj['id'];
-			var version = obj['version'];
-			var client = obj['client'];
-			isReady = 1;
-			sendEvent('ITEM',currentTrack); // sets the playback to item 0
-			player = document.getElementById(id);
-			player.addModelListener('STATE','updatePlayerState');
-			player.addModelListener('TIME','updateCurrentPos');
-			player.addControllerListener('ITEM','updateCurrentTrack');
-		}
-		
-		function updatePlayerState(obj) {
-			playerStatus = obj['newstate'];
-			//console.log("status: " + obj['newstate'] + " currentTrack: " + currentTrack);
-		}
-		
-		
-		function updateCurrentTrack(obj) {
-			cleanTrackDisplay(currentTrack);
-			currentTrack = obj['index'];
-			setupTrackDisplay(obj['index']);
-			//console.log("currentTrack changed to: " + obj['index']);
-		}
+      <div class="info">
+        <div class="clock"></div> <strong>000</strong>
+      </div>
 
-		
-		function updateCurrentPos(obj) {
-			pos = Math.round(obj['position']);
-			if ( pos==currentPos ) { return false; }
-			else {
-				var string = '';
-				var sec = pos % 60;
-				var min = (pos - sec) / 60;
-				var min_formatted = min ? min+':' : '';
-				var sec_formatted = min ? (sec < 10 ? '0'+sec : sec) : sec;
-				string = min_formatted + sec_formatted;
-			
-				songClock.setHTML(string);
-				currentPos = pos;
-			}
-		
-		}
-		
-		function playTrack() {
-				//console.log("Executing playTrack: " + currentTrack);
-				setupTrackDisplay(currentTrack);
-				sendEvent('ITEM',currentTrack);
-				sendEvent('PLAY',true);
-		}
-	
-		function stopTrack() {
-			sendEvent('STOP');
-			cleanTrackDisplay(currentTrack);
-		}
-		
-		function cleanTrackDisplay(id) {
-			//console.log("Executing cleanTrackDisplay: " + id);
+      </li>
+    <% end %>
+  </ul>
 
-			songClock = $E('#song'+id+' .clock');
-			songItem = $E('#song'+id);
+  <div class="footer">
+    NatTape v0.0.1 &infin; <a href="/edit">Edit</a>
+  </div>
 
-			songItem.removeClass('hilite');		
-			songClock.setHTML('');
-		}
-		
-		function setupTrackDisplay(id) {
-			//console.log("Executing setupTrackDisplay: " + id);
+  <div id="openplayer" class="flash_player"></div>
 
-			songClock = $E('#song'+id+' .clock');
-			songItem = $E('#song'+id);
-		
-			songClock.removeClass('grey');
-			songClock.addClass('green');
-			songClock.setHTML('&mdash;');
-			songItem.addClass('hilite');
-						
-			var name = $E('#song'+ id +' .name').getHTML().replace('&amp;','&');
-			document.title = name.trim() + " / <?php if(!empty($prefs_struct['banner'])) { echo escape_for_json($prefs_struct['banner']); } else { echo "OPENTAPE"; } ?>";		
-		}
-	
-		function togglePlayback(id) {
-			id = id.replace(/song/,'');
-			songClock = $E('#song'+currentTrack+' .clock');
-			// songItem = $E('#song'+currentTrack); 
-			// console.log("togglePlayback called with: " + id + " currentTrack is: " + currentTrack);
-			
-			if (id == currentTrack || id == null) { 
-				if(playerStatus == "PAUSED"|| playerStatus=="IDLE") {
-					songClock.removeClass('grey');
-					songClock.addClass('green');
-					sendEvent('PLAY', true);
-				} else {
-					songClock.removeClass('green');
-					songClock.addClass('grey');	
-					sendEvent('PLAY', false);
-				}
-			} else {
-				stopTrack();
-				currentTrack = id;
-				playTrack();
-			}
-		}
-		
-		// Player maintenance functions
-		function sendEvent(typ,prm) { 
-			if( isReady ) {	thisMovie('openplayer').sendEvent(typ,prm); }
-		}
+</div>
 
-		function thisMovie(movieName) {
-			if(navigator.appName.indexOf("Microsoft") != -1) { return window[movieName]; }
-			else { return document[movieName]; }
-		}
-		
-	</script>
+<script type="text/javascript">
+
+  var openPlaylist=new Array();
+  openPlaylist.push("something...");
+
+  // assign all the right events
+  for (i = 0; i < openPlaylist.length; i++) {
+    var trackEntry = $('song'+i);
+    if (trackEntry) {
+
+      trackEntry.addEvent('mouseover',function() {
+        trackEntry.addClass('hover');
+      });
+
+      trackEntry.addEvent('mouseout',function() {
+        trackEntry.removeClass('hover');
+      });
+
+
+      trackEntry.addEvent('click',function(e) {
+        targ = e.target || e.srcElement;
+        // because of the numerous subelements one can click, we need to do this ugly thing
+        if (targ.id.indexOf("song")!=-1) { togglePlayback(targ.id); }
+        else if (targ.parentNode.id.indexOf("song")!=-1) { togglePlayback(targ.parentNode.id); }
+        else if (targ.parentNode.parentNode.id.indexOf("song")!=-1) { togglePlayback(targ.parentNode.parentNode.id); }
+        else if (targ.parentNode.parentNode.parentNode.id.indexOf("song")!=-1) { togglePlayback(targ.parentNode.parentNode.parentNode.id); }
+      });
+    }
+  }
+
+  // Player management code
+  var currentTrack = 0;
+  var isReady = 0;
+  var playerStatus = "";
+  var currentPos;
+  var player;
+
+  function playerReady(obj) {
+    var id = obj['id'];
+    var version = obj['version'];
+    var client = obj['client'];
+    isReady = 1;
+    sendEvent('ITEM',currentTrack); // sets the playback to item 0
+    player = document.getElementById(id);
+    player.addModelListener('STATE','updatePlayerState');
+    player.addModelListener('TIME','updateCurrentPos');
+    player.addControllerListener('ITEM','updateCurrentTrack');
+  }
+
+  function updatePlayerState(obj) {
+    playerStatus = obj['newstate'];
+    //console.log("status: " + obj['newstate'] + " currentTrack: " + currentTrack);
+  }
+
+  function updateCurrentTrack(obj) {
+    cleanTrackDisplay(currentTrack);
+    currentTrack = obj['index'];
+    setupTrackDisplay(obj['index']);
+    //console.log("currentTrack changed to: " + obj['index']);
+  }
+
+  function updateCurrentPos(obj) {
+    pos = Math.round(obj['position']);
+    if ( pos==currentPos ) { return false; }
+    else {
+      var string = '';
+      var sec = pos % 60;
+      var min = (pos - sec) / 60;
+      var min_formatted = min ? min+':' : '';
+      var sec_formatted = min ? (sec < 10 ? '0'+sec : sec) : sec;
+      string = min_formatted + sec_formatted;
+
+      songClock.setHTML(string);
+      currentPos = pos;
+    }
+  }
+
+  function playTrack() {
+    //console.log("Executing playTrack: " + currentTrack);
+    setupTrackDisplay(currentTrack);
+    sendEvent('ITEM',currentTrack);
+    sendEvent('PLAY',true);
+  }
+
+  function stopTrack() {
+    sendEvent('STOP');
+    cleanTrackDisplay(currentTrack);
+  }
+
+  function cleanTrackDisplay(id) {
+    //console.log("Executing cleanTrackDisplay: " + id);
+
+    songClock = $E('#song'+id+' .clock');
+    songItem = $E('#song'+id);
+
+    songItem.removeClass('hilite');
+    songClock.setHTML('');
+  }
+
+  function setupTrackDisplay(id) {
+    //console.log("Executing setupTrackDisplay: " + id);
+
+    songClock = $E('#song'+id+' .clock');
+    songItem = $E('#song'+id);
+
+    songClock.removeClass('grey');
+    songClock.addClass('green');
+    songClock.setHTML('&mdash;');
+    songItem.addClass('hilite');
+
+    var name = $E('#song'+ id +' .name').getHTML().replace('&amp;','&');
+    document.title = name.trim() + " / <?php if(!empty($prefs_struct['banner'])) { echo escape_for_json($prefs_struct['banner']); } else { echo "OPENTAPE"; } ?>";
+  }
+
+  function togglePlayback(id) {
+    id = id.replace(/song/,'');
+    songClock = $E('#song'+currentTrack+' .clock');
+    // songItem = $E('#song'+currentTrack);
+    // console.log("togglePlayback called with: " + id + " currentTrack is: " + currentTrack);
+
+    if (id == currentTrack || id == null) {
+      if(playerStatus == "PAUSED"|| playerStatus=="IDLE") {
+        songClock.removeClass('grey');
+        songClock.addClass('green');
+        sendEvent('PLAY', true);
+      } else {
+        songClock.removeClass('green');
+        songClock.addClass('grey');
+        sendEvent('PLAY', false);
+      }
+    } else {
+      stopTrack();
+      currentTrack = id;
+      playTrack();
+    }
+  }
+
+  // Player maintenance functions
+  function sendEvent(typ,prm) {
+    if( isReady ) {	thisMovie('openplayer').sendEvent(typ,prm); }
+  }
+
+  function thisMovie(movieName) {
+    if(navigator.appName.indexOf("Microsoft") != -1) { return window[movieName]; }
+    else { return document[movieName]; }
+  }
+</script>
