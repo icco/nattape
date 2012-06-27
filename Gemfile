@@ -4,8 +4,9 @@ gem "activerecord", :require => "active_record"
 gem "erubis"
 gem "json"
 gem "less"
+gem "mp3info" # http://ruby-mp3info.rubyforge.org/
 gem "multi_json"
-gem "omniauth-github" # https://github.com/intridea/omniauth-github
+gem "omniauth-twitter"
 gem "pony"
 gem "rack"
 gem "rack-less"
@@ -16,7 +17,7 @@ gem "thin"
 
 # Monitoring
 group :production do
-  gem 'newrelic_rpm'
+  gem "newrelic_rpm" # https://newrelic.com/docs/ruby/new-relic-for-ruby
 end
 
 # Padrino
@@ -28,9 +29,9 @@ group :production do
 end
 
 # Test requirements
-gem 'rr', :group => "test"
-gem 'minitest', "~>2.6.0", :require => "minitest/autorun", :group => "test"
-gem 'rack-test', :require => "rack/test", :group => "test"
+gem "rr", :group => "test"
+gem "minitest", "~>2.6.0", :require => "minitest/autorun", :group => "test"
+gem "rack-test", :require => "rack/test", :group => "test"
 
 # For dev.
 group :development, :test do
@@ -38,4 +39,3 @@ group :development, :test do
   gem "shotgun"
   gem "sqlite3"
 end
-
