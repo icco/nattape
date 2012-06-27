@@ -17,7 +17,7 @@ gem "thin"
 
 # Monitoring
 group :production do
-  gem 'newrelic_rpm'
+  gem 'newrelic_rpm' # https://newrelic.com/docs/ruby/new-relic-for-ruby
 end
 
 # Padrino
