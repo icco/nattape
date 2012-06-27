@@ -21,7 +21,7 @@ class NatTape < Padrino::Application
   use Rack::Session::Cookie
   use OmniAuth::Builder do
     provider :developer if PADRINO_ENV == "development"
-    provider :github,   ENV['GITHUB_KEY'],   ENV['GITHUB_SECRET'], scope: "user,gist"
+    provider :twitter,  ENV['TWITTER_KEY'],  ENV['TWITTER_SECRET']
   end
 
   use Rack::Lint

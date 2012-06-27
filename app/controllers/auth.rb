@@ -12,6 +12,12 @@ NatTape.controllers :auth do
   end
 
   get '/twitter/callback' do
+    auth = request.env['omniauth.auth']
+    auth = auth.info
+    logger.push(" Twitter: #{auth.inspect}", :devel)
+
+    session[:user] = auth['nickname']
+
     redirect '/'
   end
 
