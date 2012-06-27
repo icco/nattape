@@ -4,7 +4,7 @@ gem "activerecord", :require => "active_record"
 gem "erubis"
 gem "json"
 gem "less"
-gem "mp3info"
+gem "mp3info" # http://ruby-mp3info.rubyforge.org/
 gem "multi_json"
 gem "omniauth-twitter"
 gem "pony"
