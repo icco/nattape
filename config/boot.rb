@@ -34,6 +34,8 @@ Bundler.require(:default, PADRINO_ENV)
 # Add your before (RE)load hooks here
 #
 Padrino.before_load do
+  ActiveRecord::Base.send(:include, Paperclip::Glue)
+  Paperclip.options[:logger] = Padrino.logger
 end
 
 ##
