@@ -6,11 +6,18 @@ NatTape.controllers :playlist do
   end
 
   post :new do
+    @playlist = Playlist.new
+    @playlist.name = params['name']
+    @playlist.description = params['description']
+    @playlist.url = "blank"
+    # TODO(icco): username saving.
+    @playlist.save
 
+    redirect "/playlist/view/#{@playlist.url}"
   end
 
   get :view, :with => :id do
-    @playlist = Playlist.where(:url => id)
+    @playlist = Playlist.where(:url => params[:id])
     render 'playlists/view'
   end
 

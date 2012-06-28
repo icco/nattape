@@ -3,14 +3,6 @@
   <head>
     <title>NatTape <% if @title %> | <%= @title %> <% end %></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
-    <%= stylesheet_link_tag :tape %>
-    <%= stylesheet_link_tag :style %>
-    <style type="text/css">
-      div.banner { background: orange; }
-    </style>
-
-    <%= javascript_include_tag :swfobject %>
   </head>
   <body>
     <%= yield %>
