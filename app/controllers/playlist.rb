@@ -2,7 +2,7 @@ NatTape.controllers :playlist do
   layout :main
 
   get :new do
-    render :new
+    render 'playlists/new'
   end
 
   post :new do
@@ -11,11 +11,11 @@ NatTape.controllers :playlist do
 
   get :view, :with => :id do
     @playlist = Playlist.where(:url => id)
-    render :view
+    render 'playlists/view'
   end
 
   get :edit, :with => :id do
-    render :view
+    render 'playlists/edit'
   end
 
   post :edit, :with => :id do

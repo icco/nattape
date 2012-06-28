@@ -1,0 +1,10 @@
+<% form_tag url(:playlist, :new), :method => "post" do %>
+  <p>
+  <%= flash_tag :notice %>
+  </p>
+  <p>
+  <%= text_field_tag :name %>
+  <%= text_field_tag :description %>
+  <%= submit_tag "Create" %>
+  </p>
+<% end %>
