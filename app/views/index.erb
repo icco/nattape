@@ -1,7 +1,11 @@
 <h1>Welcome to NatTape</h1>
 
-<p>
-This is the index.
-</p>
-
 <p><a href="/playlist/new">New Playlist</a></p>
+
+<p>
+<ul>
+  <% @playlists.each do |pl| %>
+    <li><%= link_to pl.name, url(:playlist, :view, pl.url) %></li>
+  <% end %>
+</ul>
+</p>

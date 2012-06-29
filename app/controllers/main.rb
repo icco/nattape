@@ -2,6 +2,7 @@ NatTape.controller do
   layout :main
 
   get :index do
+    @playlists = Playlist.order("created_at DESC")
     render :index
   end
 
