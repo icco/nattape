@@ -13,7 +13,7 @@ NatTape.controllers :playlist do
     # TODO(icco): username saving.
     @playlist.save
 
-    redirect "/playlist/view/#{@playlist.url}"
+    redirect url(:playlist, :view, @playlist.url)
   end
 
   get :view, :with => :id do
@@ -22,10 +22,16 @@ NatTape.controllers :playlist do
   end
 
   get :edit, :with => :id do
+    @playlist = Playlist.where(:url => params[:id]).first
     render 'playlists/edit'
   end
 
   post :edit, :with => :id do
+    p params
+    @playlist = Playlist.where(:url => params[:id]).first
+    song = Song.create(params["playlist"])
+    p song
 
+    redirect url(:playlist, :view, @playlist.url)
   end
 end

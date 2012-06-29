@@ -2,8 +2,13 @@
   <div class="banner">
     <div class="flag">
       <h1>NatTape</h1>
-      <h2><%= @playlist.count %> songs, <%= format_seconds @playlist.play_length %></h2>
     </div>
+  </div>
+
+  <div class="info">
+    <h1><%= @playlist.name %></h1>
+    <h2><%= @playlist.description %></h2>
+    <h3><%= @playlist.count %> songs, <%= format_seconds @playlist.play_length %></h3>
   </div>
 
   <ul class="songs">
