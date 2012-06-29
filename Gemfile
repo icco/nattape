@@ -1,12 +1,12 @@
 source :rubygems
 
 gem "activerecord", :require => "active_record"
+gem "carrierwave", :require => %w(carrierwave carrierwave/orm/activerecord)
 gem "erubis"
 gem "json"
 gem "less"
 gem "multi_json"
 gem "omniauth-twitter"
-gem "paperclip", "~> 3.0"
 gem "pony"
 gem "rack"
 gem "rack-less"
