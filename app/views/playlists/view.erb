@@ -2,12 +2,12 @@
   <div class="banner">
     <div class="flag">
       <h1>NatTape</h1>
-      <h2><%= @songs.count %> songs, <%= @songs.play_length %></h2>
+      <h2><%= @playlist.count %> songs, <%= format_seconds @playlist.play_length %></h2>
     </div>
   </div>
 
   <ul class="songs">
-    <% @songs.each do |song| %>
+    <% @playlist.songs.each do |song| %>
       <li class="song" id="song<%= song.id %>">
       <div class="name">
         <%= song.artist %> - <% song.title %>

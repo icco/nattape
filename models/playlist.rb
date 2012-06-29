@@ -1,4 +1,5 @@
 class Playlist < ActiveRecord::Base
+  has_many :songs
 
   # Copied from https://github.com/icco/abelinkin/blob/master/site.rb
   def url= x
@@ -13,5 +14,13 @@ class Playlist < ActiveRecord::Base
     end while !h and !Playlist.find(:url => h).nil?
 
     super h
+  end
+
+  def count
+    return self.songs.count
+  end
+
+  def play_length
+    return 100
   end
 end

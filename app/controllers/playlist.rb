@@ -17,7 +17,7 @@ NatTape.controllers :playlist do
   end
 
   get :view, :with => :id do
-    @playlist = Playlist.where(:url => params[:id])
+    @playlist = Playlist.where(:url => params[:id]).first
     render 'playlists/view'
   end
 
