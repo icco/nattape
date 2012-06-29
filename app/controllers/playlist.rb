@@ -29,8 +29,11 @@ NatTape.controllers :playlist do
   post :edit, :with => :id do
     p params
     @playlist = Playlist.where(:url => params[:id]).first
-    song = Song.create(params["playlist"])
-    p song
+
+    song = Song.new
+    song.file = params["playlist"]["file"]
+    song.playlist = @playlist
+    song.save
 
     redirect url(:playlist, :view, @playlist.url)
   end
