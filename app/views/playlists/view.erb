@@ -24,7 +24,7 @@
   </ul>
 
   <div class="footer">
-    NatTape v0.0.1 &infin; <a href="/edit">Edit</a>
+    NatTape v0.0.1 &infin; <%= link_to "Edit", url(:playlist, :edit, @playlist.url) %>
   </div>
 
   <div id="openplayer" class="flash_player"></div>
