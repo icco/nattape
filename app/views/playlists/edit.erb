@@ -12,9 +12,9 @@
   </div>
 
   <div>
-    <% form_for @playlist, :html => { :multipart => true } do |form| %>
-      <%= form.file_field :file %>
-      <%= form.submit %>
+    <% form_tag url(:playlist, :edit, @playlist.url), { :method => :post, :multipart => true } do %>
+      <%= file_field_tag :file %>
+      <%= submit_tag %>
     <% end %>
   </div>
 </div>

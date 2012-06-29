@@ -27,11 +27,10 @@ NatTape.controllers :playlist do
   end
 
   post :edit, :with => :id do
-    p params
     @playlist = Playlist.where(:url => params[:id]).first
 
     song = Song.new
-    song.file = params["playlist"]["file"]
+    song.file = params["file"]
     song.playlist = @playlist
     song.save
 

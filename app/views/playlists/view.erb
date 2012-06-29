@@ -13,12 +13,13 @@
 
   <ul class="songs">
     <% @playlist.songs.each do |song| %>
+      <% p song %>
       <li class="song" id="song<%= song.id %>">
       <div class="name">
         <%= song.artist %> - <% song.title %>
       </div>
 
-      <a class="mp3" href="<%= song.file.url %>" target="_blank">File</a>
+      <a class="mp3" href="<%= song.file %>" target="_blank">File</a>
 
       <div class="info">
         <div class="clock"></div> <strong>000</strong>
