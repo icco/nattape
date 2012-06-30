@@ -4,13 +4,15 @@
   <p><a href="/playlist/new">New Playlist</a></p>
 </div>
 
-<div class="well">
-  <p>Existing playlists.</p>
-  <p>
-  <ul>
-    <% @playlists.each do |pl| %>
-      <li><%= link_to pl.name, url(:playlist, :view, pl.url) %> by <%= pl.user %></li>
-    <% end %>
-  </ul>
-  </p>
-</div>
+<% if @playlists %>
+  <div class="well">
+    <p>Existing playlists.</p>
+    <p>
+    <ul>
+      <% @playlists.each do |pl| %>
+        <li><%= link_to pl.name, url(:playlist, :view, pl.url) %> by <%= pl.user %></li>
+      <% end %>
+    </ul>
+    </p>
+  </div>
+<% end %>

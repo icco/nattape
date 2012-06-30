@@ -2,7 +2,10 @@ NatTape.controller do
   layout :main
 
   get :index do
-    @playlists = Playlist.order("created_at DESC")
+    if session[:user]
+      @playlists = Playlist.where(:username => session[:user]).order("created_at DESC")
+    end
+
     render :index
   end
 
