@@ -2,10 +2,14 @@ NatTape.controllers :playlist do
   layout :main
 
   get :new do
+    logged_in?
+
     render 'playlists/new'
   end
 
   post :new do
+    logged_in?
+
     @playlist = Playlist.new
     @playlist.name = params['name'] if params['name']
     @playlist.description = params['description'] if params['description']

@@ -1,4 +1,9 @@
 NatTape.controllers :auth do
+  layout :main
+
+  get :index do
+    render "auth/index"
+  end
 
   # For development testing
   post '/developer/callback' do
@@ -6,9 +11,9 @@ NatTape.controllers :auth do
     auth = auth.info
     logger.push(" Developer: #{auth.inspect}", :devel)
 
-    session[:user] = auth["name"]
+    session[:user] = "developer:#{auth["name"]}"
 
-    redirect '/'
+    redirect '/playlist/new'
   end
 
   get '/twitter/callback' do
@@ -16,9 +21,9 @@ NatTape.controllers :auth do
     auth = auth.info
     logger.push(" Twitter: #{auth.inspect}", :devel)
 
-    session[:user] = auth['nickname']
+    session[:user] = "twitter:#{auth['nickname']}"
 
-    redirect '/'
+    redirect '/playlist/new'
   end
 
   get '/failure' do

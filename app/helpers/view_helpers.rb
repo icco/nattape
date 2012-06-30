@@ -11,4 +11,12 @@ NatTape.helpers do
 
     return ret
   end
+
+  def logged_in?
+    if !session[:user]
+      redirect '/auth'
+    end
+
+    return true
+  end
 end

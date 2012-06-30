@@ -9,7 +9,7 @@
   <p>
   <ul>
     <% @playlists.each do |pl| %>
-      <li><%= link_to pl.name, url(:playlist, :view, pl.url) %> by <%= pl.username %></li>
+      <li><%= link_to pl.name, url(:playlist, :view, pl.url) %> by <%= pl.user %></li>
     <% end %>
   </ul>
   </p>

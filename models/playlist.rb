@@ -8,6 +8,11 @@ class Playlist < ActiveRecord::Base
     self.name ||= "Blank"
   end
 
+  def user
+    protocol, user = self.username.split(':')
+    return user
+  end
+
   # Copied from https://github.com/icco/abelinkin/blob/master/site.rb
   def self.gen_url
     @@hash_chars = ("1".."z").reject {|val| (/\w+/ =~ val).nil? }

@@ -1,0 +1,25 @@
+<div class="row">
+  <div class="span8">
+    <h3>Hey There!</h3>
+
+    <p>You need to log in to create a playlist!</p>
+
+    <p>&nbsp;<p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span2 well">
+    <center>
+      <a class="btn btn-primary btn-large" href="/auth/twitter">Log-in with Twitter</a>
+    </center>
+  </div>
+
+  <div class="span2 well">
+    <center>
+      <% if Padrino.env == :development %>
+        <a  class="btn btn-large" href="/auth/developer">Log-in as a Dev</a>
+      <% end %>
+    </center>
+  </div>
+</div>
