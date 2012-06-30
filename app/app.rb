@@ -1,5 +1,9 @@
 class NatTape < Padrino::Application
 
+  def self.version
+    "0.0.1"
+  end
+
   # Enables .less in app/stylesheets/
   register LessInitializer
 
