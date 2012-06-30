@@ -1,10 +1,28 @@
-<% form_tag url(:playlist, :new), :method => "post" do %>
+<h2>New Playlist</h2>
+
+<% form_tag url(:playlist, :new), :method => "post", :class => "form-horizontal" do %>
   <p>
   <%= flash_tag :notice %>
   </p>
-  <p>
-  <%= text_field_tag :name %>
-  <%= text_field_tag :description %>
-  <%= submit_tag "Create" %>
-  </p>
+
+  <fieldset>
+    <div class="control-group">
+      <label class="control-label" for="input01">Playlist Name</label>
+      <div class="controls">
+        <%= text_field_tag :name, :class => "input-xlarge" %>
+        <p class="help-block"></p>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label" for="textarea">Playlist Description</label>
+      <div class="controls">
+        <%= text_area_tag :description, :rows => 3, :class => "input-xlarge" %>
+      </div>
+    </div>
+
+    <div class="controls">
+      <%= submit_tag "Create", :class => "btn btn-primary" %>
+    </div>
+  </fieldset>
 <% end %>
