@@ -7,10 +7,9 @@ NatTape.controllers :playlist do
 
   post :new do
     @playlist = Playlist.new
-    @playlist.name = params['name']
-    @playlist.description = params['description']
-    @playlist.url = "blank"
-    # TODO(icco): username saving.
+    @playlist.name = params['name'] if params['name']
+    @playlist.description = params['description'] if params['description']
+    @playlist.username = session[:user]
     @playlist.save
 
     redirect url(:playlist, :view, @playlist.url)

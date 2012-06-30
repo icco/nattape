@@ -1,8 +1,15 @@
 class Playlist < ActiveRecord::Base
   has_many :songs
 
+  after_initialize :defaults
+
+  def defaults
+    self.url ||= Playlist.gen_url
+    self.name ||= "Blank"
+  end
+
   # Copied from https://github.com/icco/abelinkin/blob/master/site.rb
-  def url= x
+  def self.gen_url
     @@hash_chars = ("1".."z").reject {|val| (/\w+/ =~ val).nil? }
     r = Random.new
 
@@ -13,7 +20,7 @@ class Playlist < ActiveRecord::Base
       idx.each {|i| h << @@hash_chars[i] }
     end while !h and !Playlist.find(:url => h).nil?
 
-    super h
+    return h
   end
 
   def count
