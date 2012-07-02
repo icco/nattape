@@ -3,15 +3,30 @@ class Song < ActiveRecord::Base
   mount_uploader :file, SongUploader
   after_initialize :defaults
   before_save :update_asset_attributes
-    
+
   private
 
-  # TODO(icco): this.
   def update_asset_attributes
-    #  if asset.present? && asset_changed?
-    #    self.content_type = asset.file.content_type
-    #    self.file_size = asset.file.size
-    #  end
+    if file.present? && file_changed?
+      logger.push("Parsing: #{file.file.path.inspect}", :devel)
+
+      case file.file.path
+      when /\.mp3$/
+        open_opts = { :encoding => 'utf-8' }
+        Mp3Info.open(file.file.path, open_opts) do |mp3|
+          self.title = mp3.tag.title
+          self.artist = mp3.tag.artist
+        end
+      when /\.m4a$/
+        # TODO(icco): This doesn't work...
+        MP4Info.open(file.file.path) do |mp3|
+          p mp3
+          p mp3.tag
+          self.title = mp3.tag.title
+          self.artist = mp3.tag.artist
+        end
+      end
+    end
   end
 
   def defaults
