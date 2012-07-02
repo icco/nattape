@@ -1,6 +1,12 @@
 GIT
+  remote: git://github.com/arbarlow/ruby-mp4info.git
+  revision: 9399d0d814c88a7988e32d5d32a076ee48b8f72a
+  specs:
+    mp4info (1.7.3)
+
+GIT
   remote: git://github.com/padrino/padrino-framework.git
-  revision: 2c3796ebb69d63866fc969c82a29adf452ec01d7
+  revision: 98eb032693088e33476d1fcad41bcebb02b14b29
   specs:
     padrino (0.10.7)
       padrino-admin (= 0.10.7)
@@ -146,6 +152,7 @@ DEPENDENCIES
   json
   less
   minitest (~> 2.6.0)
+  mp4info!
   multi_json
   newrelic_rpm
   omniauth-twitter

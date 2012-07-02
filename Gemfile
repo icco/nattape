@@ -12,6 +12,7 @@ gem "rack"
 gem "rack-less"
 gem "rake"
 gem "ruby-mp3info", :require => "mp3info" # http://ruby-mp3info.rubyforge.org/
+gem "mp4info", :git => "git://github.com/arbarlow/ruby-mp4info.git", :require => "mp4info"
 gem "sinatra-flash", :require => "sinatra/flash"
 gem "therubyracer"
 gem "thin"
