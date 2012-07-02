@@ -12,9 +12,9 @@
   </div>
 
   <div>
-    <% form_tag url(:playlist, :edit, @playlist.url), { :method => :post, :multipart => true } do %>
-      <%= file_field_tag :file %>
-      <%= submit_tag %>
+    <% form_tag url(:playlist, :edit, @playlist.url), :class => "form-inline", :method => :post, :multipart => true do %>
+      <%= file_field_tag :file, :class => "input-file" %>
+      <%= submit_tag "Upload", :class => "btn" %>
     <% end %>
   </div>
 </div>
