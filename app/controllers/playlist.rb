@@ -24,6 +24,12 @@ NatTape.controllers :playlist do
     render 'playlists/view'
   end
 
+  get "/view/:id/update" do
+    @playlist = Playlist.where(:url => params[:id]).first
+    @playlist.songs.each {|s| s.update_asset_attributes true; s.save }
+    render 'playlists/view'
+  end
+
   get :edit, :with => :id do
     @playlist = Playlist.where(:url => params[:id]).first
     render 'playlists/edit'

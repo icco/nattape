@@ -4,10 +4,8 @@ class Song < ActiveRecord::Base
   after_initialize :defaults
   before_save :update_asset_attributes
 
-  private
-
-  def update_asset_attributes
-    if file.present? && file_changed?
+  def update_asset_attributes force = false
+    if (file.present? && file_changed?) || force
       logger.push("Parsing: #{file.file.path.inspect}", :devel)
 
       case file.file.path
@@ -16,6 +14,7 @@ class Song < ActiveRecord::Base
         Mp3Info.open(file.file.path, open_opts) do |mp3|
           self.title = mp3.tag.title
           self.artist = mp3.tag.artist
+          self.length = mp3.length.to_i
         end
       when /\.m4a$/
         # TODO(icco): This doesn't work...
@@ -24,10 +23,13 @@ class Song < ActiveRecord::Base
           p mp3.tag
           self.title = mp3.tag.title
           self.artist = mp3.tag.artist
+          self.length = mp3.length.to_i
         end
       end
     end
   end
+
+  private
 
   def defaults
     self.title ||= "No Title"
