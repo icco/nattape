@@ -33,6 +33,6 @@ class Playlist < ActiveRecord::Base
   end
 
   def play_length
-    return 100
+    return self.songs.sum(:length)
   end
 end
