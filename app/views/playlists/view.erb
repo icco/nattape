@@ -14,7 +14,15 @@
       <%= song.artist %> - <%= song.title %>
     </div>
 
-    <a class="mp3" href="<%= song.file.url %>" target="_blank">File</a>
+    <div>
+      <a class="mp3" href="<%= song.file.url %>" target="_blank">File</a>
+    </div>
+
+    <div>
+      <audio controls="controls">
+      <source src="<%= song.file.url %>" type="audio/mpeg" />
+      </audio>
+    </div>
 
     <div class="info">
       <div class="clock"></div> <strong><%= format_seconds song.length %></strong>
