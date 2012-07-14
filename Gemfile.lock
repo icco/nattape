@@ -6,7 +6,7 @@ GIT
 
 GIT
   remote: git://github.com/padrino/padrino-framework.git
-  revision: 798774602f9f0cd6e6cb06c9e13f87eb555f236e
+  revision: 4e87332ff4b1ddd28cd512c42d73d0d958277390
   specs:
     padrino (0.10.7)
       padrino-admin (= 0.10.7)
@@ -60,16 +60,16 @@ GEM
     daemons (1.1.8)
     erubis (2.7.0)
     eventmachine (0.12.10)
-    excon (0.14.2)
+    excon (0.14.3)
     hashie (1.2.0)
-    heroku (2.28.8)
-      heroku-api (~> 0.2.6)
+    heroku (2.28.12)
+      heroku-api (~> 0.2.8)
       launchy (>= 0.3.2)
       netrc (~> 0.7.5)
       rest-client (~> 1.6.1)
       rubyzip
-    heroku-api (0.2.6)
-      excon (~> 0.14.0)
+    heroku-api (0.2.8)
+      excon (~> 0.14.3)
     http_router (0.10.2)
       rack (>= 1.0.0)
       url_mount (~> 0.2.1)
