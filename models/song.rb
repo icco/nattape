@@ -18,13 +18,14 @@ class Song < ActiveRecord::Base
         end
       when /\.m4a$/
         # TODO(icco): This doesn't work...
-        MP4Info.open(file.file.path) do |mp3|
-          p mp3
-          p mp3.tag
-          self.title = mp3.tag.title
-          self.artist = mp3.tag.artist
-          self.length = mp3.length.to_i
-        end
+        mp4 = MP4Info.open(file.file.path)
+        info = mp4.instance_eval("@data_atoms")
+        self.artist = info["ART"].to_s
+        self.title = info["NAM"].to_s
+        info = mp4.instance_eval("@info_atoms")
+        self.length = info["SECS"].to_i
+      else
+        logger.push("Unable to parse #{file.file.path.inspect}.", :devel)
       end
     end
   end
